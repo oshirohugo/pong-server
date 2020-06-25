@@ -1,0 +1,6 @@
+{
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "eslint.enable": true,
+  "eslint.validate": ["javascript", "typescript"],
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}
