@@ -1,5 +1,3 @@
-const path = require('path');
-
 module.exports = {
   parser: '@typescript-eslint/parser',
   extends: [
@@ -8,7 +6,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
   ],
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'import'],
   rules: {
     'import/order': [
       'error',
@@ -24,16 +22,5 @@ module.exports = {
         allowExpressions: true,
       },
     ],
-  },
-  settings: {
-    react: {
-      version: '16',
-    },
-  },
-  parserOptions: {
-    project: path.resolve(__dirname, 'test/tsconfig.json'),
-    tsconfigRootDir: __dirname,
-    ecmaVersion: 2018,
-    sourceType: 'module',
   },
 };
