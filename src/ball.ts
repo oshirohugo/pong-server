@@ -1,12 +1,24 @@
 import Pos from './pos';
 
+type BallParams = {
+  speed: Pos;
+  acceleration: Pos;
+  pos: Pos;
+  size: number;
+};
+
 class Ball {
-  public speed: Pos = new Pos(-300, -20);
-  public acceleration: Pos = new Pos(5, 5);
+  public speed: Pos;
+  public acceleration: Pos;
+  public pos: Pos;
+  public size: number;
 
-  public size = 10;
-
-  constructor(public pos: Pos) {}
+  constructor({ speed, acceleration, pos, size }: BallParams) {
+    this.speed = speed;
+    this.acceleration = acceleration;
+    this.pos = pos;
+    this.size = size;
+  }
 
   public accelerate(dt: number) {
     this.speed.x = this.speed.x + this.ax * dt;

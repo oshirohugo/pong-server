@@ -1,20 +1,31 @@
 import Pos from './pos';
 import Ball from './ball';
 
+type PlayerParams = {
+  id: number;
+  speed: number;
+  width: number;
+  height: number;
+  pos: Pos;
+};
+
 class Player {
   public pos: Pos;
   public id: number;
-  public speed = 300;
+  public speed: number;
   public points = 0;
   public lastProcessedInput = 0;
-  public width = 10;
-  public height = 60;
+  public width: number;
+  public height: number;
   public up = false;
   public down = false;
 
-  constructor(id: number, pos: Pos) {
+  constructor({ id, pos, speed, width, height }: PlayerParams) {
     this.id = id;
     this.pos = pos;
+    this.speed = speed;
+    this.width = width;
+    this.height = height;
   }
 
   /**

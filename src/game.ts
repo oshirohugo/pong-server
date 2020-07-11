@@ -10,6 +10,13 @@ type GameParams = {
   updateRate: number;
   mapWidth: number;
   mapHeight: number;
+  playerWidth: number;
+  playerHeight: number;
+  playerSpeed: number;
+  ballSpeedX: number;
+  ballSpeedY: number;
+  ballAcceleration: number;
+  ballSz: number;
 };
 
 class Game {
@@ -19,6 +26,10 @@ class Game {
   public nextId = 0;
   public lastPlayerId = 0;
 
+  public playerHeight: number;
+  public playerWidth: number;
+  public playerSpeed: number;
+
   public tickRate: number;
   public loopPeriod: number;
   public mapWidth: number;
@@ -27,11 +38,33 @@ class Game {
   private msgQueue: Message[] = [];
   private onTick: (msg: string) => void;
 
-  constructor({ updateRate, mapHeight, mapWidth }: GameParams) {
+  constructor({
+    updateRate,
+    mapHeight,
+    mapWidth,
+    playerHeight,
+    playerWidth,
+    playerSpeed,
+    ballSpeedX,
+    ballSpeedY,
+    ballAcceleration,
+    ballSz,
+  }: GameParams) {
     this.mapHeight = mapHeight;
     this.mapWidth = mapWidth;
     this.playersConnections = new Map<WebSocket, Player>();
-    this.ball = new Ball(new Pos(mapWidth / 2, mapHeight / 2 + 20));
+
+    this.ball = new Ball({
+      speed: new Pos(ballSpeedX, ballSpeedY),
+      acceleration: new Pos(ballAcceleration, ballAcceleration),
+      pos: new Pos(mapWidth / 2, mapHeight / 2),
+      size: ballSz,
+    });
+
+    this.playerHeight = playerHeight;
+    this.playerWidth = playerWidth;
+    this.playerSpeed = playerSpeed;
+
     this.tickRate = updateRate;
     this.loopPeriod = (1 / this.tickRate) * 1000;
     this.onTick = () => {};
@@ -41,8 +74,16 @@ class Game {
    * Create new Player
    */
   public createNewPlayer(): Player {
-    const x = this.nextId ? this.mapWidth - 20 : 10;
-    const player = new Player(this.nextId++, new Pos(x, 10)); // TODO return correct position
+    // calculate correct player position according to its id
+    const x = this.nextId ? this.mapWidth - 2 * this.playerWidth : this.playerWidth;
+
+    const player = new Player({
+      id: this.nextId++,
+      pos: new Pos(x, this.mapHeight / 2 - this.playerHeight / 2),
+      speed: this.playerSpeed,
+      width: this.playerWidth,
+      height: this.playerHeight,
+    });
     this.lastPlayerId = player.id;
     this.players.splice(player.id, 0, player);
     return player;

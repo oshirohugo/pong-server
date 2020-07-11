@@ -1,16 +1,31 @@
 import Game from './game';
 import WebsocketServer from './websocket-server';
+import {
+  MAP_HEIGHT,
+  MAP_WIDTH,
+  TICK_RATE,
+  PLAYER_HEIGHT,
+  PLAYER_WIDTH,
+  PLAYER_SPEED,
+  BALL_SPEED_X,
+  BALL_SPEED_Y,
+  BALL_ACCELERATION,
+  BALL_SZ,
+} from './game-params';
 
-const TICK_RATE = Number(process.env.TICK_RATE); // updates per second
 const PORT = Number(process.env.PORT);
-
-export const MAP_WIDTH = Number(process.env.MAP_WIDTH);
-export const MAP_HEIGHT = Number(process.env.MAP_HEIGHT);
 
 const game = new Game({
   updateRate: TICK_RATE,
   mapHeight: MAP_HEIGHT,
   mapWidth: MAP_WIDTH,
+  playerHeight: PLAYER_HEIGHT,
+  playerWidth: PLAYER_WIDTH,
+  playerSpeed: PLAYER_SPEED,
+  ballSpeedX: BALL_SPEED_X,
+  ballSpeedY: BALL_SPEED_Y,
+  ballAcceleration: BALL_ACCELERATION,
+  ballSz: BALL_SZ,
 });
 
 const webSocketServer = new WebsocketServer(PORT, {
