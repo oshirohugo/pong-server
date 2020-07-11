@@ -7,23 +7,7 @@ class Pos {
     this.y = y || 0;
   }
 
-  public isEqual(pos: Pos): boolean {
-    if (pos.x !== this.x) {
-      return false;
-    }
-    if (pos.y !== this.y) {
-      return false;
-    }
-
-    return true;
-  }
-
-  public add(increment: Pos): void {
-    this.x += increment.x;
-    this.y += increment.y;
-  }
-
-  public toJSON(): any {
+  public toJSON() {
     return {
       x: this.x,
       y: this.y,

@@ -1,5 +1,4 @@
 import Pos from './pos';
-import { MAP_HEIGHT } from './server';
 import Ball from './ball';
 
 class Player {
@@ -18,9 +17,15 @@ class Player {
     this.pos = pos;
   }
 
-  public applyInput(pressTime: number): void {
+  /**
+   * Apply inputs received from client
+   * @param pressTime
+   */
+  public applyInput(pressTime: number, mapHeight: number): void {
     const newPos = this.pos.y + pressTime * this.speed;
-    if (newPos <= MAP_HEIGHT - 60 && newPos >= 0) {
+
+    // respect map limits
+    if (newPos <= mapHeight - this.height && newPos >= 0) {
       this.pos.y = newPos;
     }
 
@@ -34,32 +39,20 @@ class Player {
     }
   }
 
+  /**
+   * Clear players direction that is set when input is processed
+   */
   public clearDirection(): void {
     this.up = false;
     this.down = false;
   }
 
-  public leftPlayerColide(ball: Ball, newX: number): boolean {
-    // console.log('checking x for colision', newX, this.pos.x + this.width);
-    if (newX <= this.pos.x + this.width) {
-      console.log('will pass x left');
-      return true;
-    }
-    return false;
-  }
-
-  public rightPlayerColide(ball: Ball, newX: number): boolean {
-    // console.log('checking x for colision', newX + ball.size, this.pos.x);
-    if (newX + ball.size >= this.pos.x) {
-      // console.log('will pass x right');
-      return true;
-    }
-    return false;
-  }
-
-  public colide(ball: Ball, newY: number): 'UP' | 'DOWN' | 'NEUTRAL' | null {
-    // console.log('colision check', newY, this.pos.y - ball.size);
-    // console.log('colision check', newY, this.pos.y + this.height);
+  /**
+   * Check if there was a collision and return the collision direction
+   * @param ball
+   * @param newY
+   */
+  public collide(ball: Ball, newY: number): 'UP' | 'DOWN' | 'NEUTRAL' | null {
     if (newY > this.pos.y - ball.size && newY < this.pos.y + this.height) {
       if (this.up) return 'UP';
       if (this.down) return 'DOWN';
