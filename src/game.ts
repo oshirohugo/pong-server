@@ -120,6 +120,7 @@ class Game {
       this.nextId = player?.id;
     }
     this.playersConnections.delete(ws);
+    this.ball.setPos(new Pos(this.mapWidth / 2, this.mapHeight / 2));
   }
 
   /**

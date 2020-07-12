@@ -33,6 +33,10 @@ class Ball {
     return this.speed.y > 0 ? this.acceleration.y : -this.acceleration.y;
   }
 
+  public setPos(pos: Pos) {
+    this.pos = pos;
+  }
+
   public toJSON() {
     return {
       x: this.pos.x,
